@@ -29,16 +29,12 @@ namespace Core.Dtos
             }
         }
 
-        public bool IsValid
-        {
-            get { return Errors.Count == 0; }
-        }
+        public bool IsValid => Errors.Count == 0;
 
         public override string ToString()
         {
             return Errors.Aggregate(string.Empty, (current, vo) =>
-                current + string.Format("{0}:{1}{2}", vo.Key,
-                vo.Lines.Aggregate(string.Empty, (c, l) => c + l), Environment.NewLine));
+                current + $"{vo.Key}:{vo.Lines.Aggregate(string.Empty, (c, l) => c + l)}{Environment.NewLine}");
         }
 
         public string Uri { get; set; }

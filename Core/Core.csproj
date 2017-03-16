@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\Students\AddStudent.cs" />
+    <Compile Include="Infrastructure\Processors\ICommandProcessor.cs" />
+    <Compile Include="Infrastructure\Processors\StudentProcessors\AddStudentProcessor.cs" />
     <Compile Include="Infrastructure\RepositoryCollection\Repository.cs" />
     <Compile Include="Infrastructure\SchoolConfiguration.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
@@ -62,9 +65,9 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Migrations\201703161651139_Initial.cs" />
-    <Compile Include="Migrations\201703161651139_Initial.Designer.cs">
-      <DependentUpon>201703161651139_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703161754437_Initial.cs" />
+    <Compile Include="Migrations\201703161754437_Initial.Designer.cs">
+      <DependentUpon>201703161754437_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Course.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Student.cs" />
     <Compile Include="ViewModels\AssignedCourseData.cs" />
     <Compile Include="ViewModels\EnrollmentDateGroup.cs" />
     <Compile Include="ViewModels\InstructorIndexData.cs" />
@@ -84,8 +88,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703161651139_Initial.resx">
-      <DependentUpon>201703161651139_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703161754437_Initial.resx">
+      <DependentUpon>201703161754437_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

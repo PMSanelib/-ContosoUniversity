@@ -13,15 +13,15 @@ namespace ContosoUniversity.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Course
-        public ActionResult Index(int? SelectedDepartment)
+        public ActionResult Index(int? selectedDepartment)
         {
             var departments = db.Departments.OrderBy(q => q.Name).ToList();
-            ViewBag.SelectedDepartment = new SelectList(departments, "DepartmentID", "Name", SelectedDepartment);
-            int departmentID = SelectedDepartment.GetValueOrDefault();
+            ViewBag.SelectedDepartment = new SelectList(departments, "DepartmentID", "Name", selectedDepartment);
+            var departmentId = selectedDepartment.GetValueOrDefault();
 
-            IQueryable<Course> courses = db.Courses
-                .Where(c => !SelectedDepartment.HasValue || c.DepartmentID == departmentID)
-                .OrderBy(d => d.CourseID)
+            var courses = db.Courses
+                .Where(c => !selectedDepartment.HasValue || c.DepartmentId == departmentId)
+                .OrderBy(d => d.Id)
                 .Include(d => d.Department);
             var sql = courses.ToString();
             return View(courses.ToList());
@@ -67,7 +67,7 @@ namespace ContosoUniversity.Controllers
                 //Log the error (uncomment dex variable name and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            PopulateDepartmentsDropDownList(course.DepartmentID);
+            PopulateDepartmentsDropDownList(course.DepartmentId);
             return View(course);
         }
 
@@ -82,7 +82,7 @@ namespace ContosoUniversity.Controllers
             {
                 return HttpNotFound();
             }
-            PopulateDepartmentsDropDownList(course.DepartmentID);
+            PopulateDepartmentsDropDownList(course.DepartmentId);
             return View(course);
         }
 
@@ -110,7 +110,7 @@ namespace ContosoUniversity.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
-            PopulateDepartmentsDropDownList(courseToUpdate.DepartmentID);
+            PopulateDepartmentsDropDownList(courseToUpdate.DepartmentId);
             return View(courseToUpdate);
         }
 

@@ -18,18 +18,22 @@
 using Core.Infrastructure;
 
 namespace ContosoUniversity.DependencyResolution {
+    using Core.Commands;
+    using Core.Infrastructure.Processors;
     using StructureMap;
 	
     public class DefaultRegistry : Registry {
         #region Constructors and Destructors
 
         public DefaultRegistry() {
-            Scan(
-                scan => {
-                    scan.TheCallingAssembly();
-                    scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
-                });
+            Scan(x => 
+            {
+                x.TheCallingAssembly();
+                x.WithDefaultConventions();
+				x.With(new ControllerConvention());
+                x.AssemblyContainingType<ICommand>();
+                x.ConnectImplementationsToTypesClosing(typeof(ICommandProcessor<>));
+            });
 
             For<ApplicationDbContext>().Use(new ApplicationDbContext());
             For<IUnitOfWork>().Use<UnitOfWork>();

@@ -8,7 +8,7 @@ namespace Core.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
-        public int CourseID { get; set; }
+        public int Id { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
@@ -16,7 +16,7 @@ namespace Core.Models
         [Range(0, 5)]
         public int Credits { get; set; }
 
-        public int DepartmentID { get; set; }
+        public int DepartmentId { get; set; }
 
         public virtual Department Department { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
