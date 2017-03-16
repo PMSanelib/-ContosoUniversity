@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ContosoUniversity.DAL;
-using ContosoUniversity.DependencyResolution;
-using ContosoUniversity.ViewModels;
+using Core.Infrastructure;
+using Core.ViewModels;
 
 
 namespace ContosoUniversity.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IExample _example;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IExample example)
+        public HomeController(ApplicationDbContext context)
         {
-            _example = example;
+            _context = context;
         }
-
-        private SchoolContext db = new SchoolContext();
 
         public ActionResult Index()
         {
@@ -42,22 +37,17 @@ namespace ContosoUniversity.Controllers
                 + "FROM Person "
                 + "WHERE Discriminator = 'Student' "
                 + "GROUP BY EnrollmentDate";
-            IEnumerable<EnrollmentDateGroup> data = db.Database.SqlQuery<EnrollmentDateGroup>(query);
+
+            IEnumerable<EnrollmentDateGroup> data = _context.Database.SqlQuery<EnrollmentDateGroup>(query);
 
             return View(data.ToList());
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = _example.GetMessage();
+            ViewBag.Message = "Contact Information" + _context.GetHashCode();
 
             return View();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

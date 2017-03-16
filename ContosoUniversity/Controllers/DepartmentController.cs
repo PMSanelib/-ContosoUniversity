@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using ContosoUniversity.DAL;
-using ContosoUniversity.Models;
 using System.Data.Entity.Infrastructure;
+using Core.Infrastructure;
+using Core.Models;
 
 namespace ContosoUniversity.Controllers
 {
     public class DepartmentController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Department
         public async Task<ActionResult> Index()

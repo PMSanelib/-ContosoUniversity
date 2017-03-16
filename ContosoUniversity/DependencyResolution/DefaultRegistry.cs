@@ -15,10 +15,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Core.Infrastructure;
+
 namespace ContosoUniversity.DependencyResolution {
     using StructureMap;
-    using StructureMap.Configuration.DSL;
-    using StructureMap.Graph;
 	
     public class DefaultRegistry : Registry {
         #region Constructors and Destructors
@@ -31,22 +31,10 @@ namespace ContosoUniversity.DependencyResolution {
 					scan.With(new ControllerConvention());
                 });
 
-            For<IExample>().Use<Example>();
+            For<ApplicationDbContext>().Use(new ApplicationDbContext());
+            For<IUnitOfWork>().Use<UnitOfWork>();
         }
 
         #endregion
-    }
-
-    public interface IExample
-    {
-        string GetMessage();
-    }
-
-    public class Example : IExample
-    {
-        public string GetMessage()
-        {
-            return "Hello World";
-        }
     }
 }
