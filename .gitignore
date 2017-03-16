@@ -1,0 +1,20 @@
+!.gitignore
+# NuGet Packages
+*.nupkg
+**/packages/*
+
+# Visual Studio Files/Dirs
+*.suo
+*.csproj.user
+.vs/
+
+# Build Results
+[Dd]ebug/
+[Rr]elease/
+build/
+[Bb]in/
+[Oo]bj/
+
+# Artifacts
+*.log
+
