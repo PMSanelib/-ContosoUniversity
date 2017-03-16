@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.DAL;
+using ContosoUniversity.DependencyResolution;
 using ContosoUniversity.ViewModels;
 
 
@@ -11,6 +12,13 @@ namespace ContosoUniversity.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IExample _example;
+
+        public HomeController(IExample example)
+        {
+            _example = example;
+        }
+
         private SchoolContext db = new SchoolContext();
 
         public ActionResult Index()
@@ -38,9 +46,10 @@ namespace ContosoUniversity.Controllers
 
             return View(data.ToList());
         }
+
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = _example.GetMessage();
 
             return View();
         }
