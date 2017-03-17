@@ -38,7 +38,7 @@ namespace ContosoUniversity.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var student = GetService<IStudentModelService>().GetById(id.Value);
+            var student = GetService<IStudentModelService>().GetById(id.Value, true);
 
             if (student == null)
             {

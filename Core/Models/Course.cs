@@ -6,6 +6,7 @@ namespace Core.Models
 {
     public class Course
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
         public int Id { get; set; }

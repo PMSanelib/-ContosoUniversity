@@ -23,11 +23,11 @@ namespace Core.Models
 
         public int? InstructorId { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
-
         [ForeignKey(nameof(InstructorId))]
         public Instructor Administrator { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         public ICollection<Course> Courses { get; set; }
     }

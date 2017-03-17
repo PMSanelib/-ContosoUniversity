@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models
 {
@@ -17,8 +18,11 @@ namespace Core.Models
         [DisplayFormat(NullDisplayText = "No grade")]
         public Grade? Grade { get; set; }
 
-        public virtual Course Course { get; set; }
-        public virtual Student Student { get; set; }
+        [ForeignKey(nameof(CourseId))]
+        public Course Course { get; set; }
+
+        [ForeignKey(nameof(StudentId))]
+        public Student Student { get; set; }
     }
 }
 

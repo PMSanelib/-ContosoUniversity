@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Core.Infrastructure.Mappers;
 using Core.ViewModels;
@@ -61,8 +62,27 @@ namespace Core.Infrastructure.ModelServices
 
         public StudentModel GetById(int id, bool includeEnrollments = false)
         {
-            var student = _context.Students.Find(id);
+            var query = _context.Students.AsQueryable();
+
+            if (includeEnrollments)
+            {
+                query.Include(x => x.Enrollments);
+            }
+
+            var student = query.Single(x => x.Id == id);
+
             return student == null ? null : StudentMapper.Map(student);
+
         }
     }
 }
+
+
+//Explicit loading
+/* _context.Entry(student).Collection(x => x.Enrollments).Load();
+
+ foreach (var enrollment in student.Enrollments)
+ {
+     _context.Entry(enrollment).Reference(x => x.Course).Load();
+ }*/
+

@@ -21,8 +21,8 @@ namespace Core.Infrastructure
 
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.Instructors).WithMany(i => i.Courses)
-                .Map(t => t.MapLeftKey("CourseID")
-                    .MapRightKey("InstructorID")
+                .Map(t => t.MapLeftKey("CourseId")
+                    .MapRightKey("InstructorId")
                     .ToTable("CourseInstructor"));
 
             modelBuilder.Entity<Department>().MapToStoredProcedures();

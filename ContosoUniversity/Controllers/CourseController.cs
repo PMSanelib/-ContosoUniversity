@@ -36,7 +36,9 @@ namespace ContosoUniversity.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+
+            var course = db.Courses.Include(x=>x.Department).Include(x=>x.Enrollments).Include(x=>x.Instructors).Single(x=>x.Id == id);
+
             if (course == null)
             {
                 return HttpNotFound();

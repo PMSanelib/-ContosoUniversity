@@ -78,14 +78,14 @@ namespace Core.Migrations
                 "dbo.CourseInstructor",
                 c => new
                     {
-                        CourseID = c.Int(nullable: false),
-                        InstructorID = c.Int(nullable: false),
+                        CourseId = c.Int(nullable: false),
+                        InstructorId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.CourseID, t.InstructorID })
-                .ForeignKey("dbo.Course", t => t.CourseID, cascadeDelete: true)
-                .ForeignKey("dbo.Person", t => t.InstructorID, cascadeDelete: true)
-                .Index(t => t.CourseID)
-                .Index(t => t.InstructorID);
+                .PrimaryKey(t => new { t.CourseId, t.InstructorId })
+                .ForeignKey("dbo.Course", t => t.CourseId, cascadeDelete: true)
+                .ForeignKey("dbo.Person", t => t.InstructorId, cascadeDelete: true)
+                .Index(t => t.CourseId)
+                .Index(t => t.InstructorId);
             
             CreateStoredProcedure(
                 "dbo.Department_Insert",
@@ -150,15 +150,15 @@ namespace Core.Migrations
             DropStoredProcedure("dbo.Department_Delete");
             DropStoredProcedure("dbo.Department_Update");
             DropStoredProcedure("dbo.Department_Insert");
-            DropForeignKey("dbo.CourseInstructor", "InstructorID", "dbo.Person");
-            DropForeignKey("dbo.CourseInstructor", "CourseID", "dbo.Course");
+            DropForeignKey("dbo.CourseInstructor", "InstructorId", "dbo.Person");
+            DropForeignKey("dbo.CourseInstructor", "CourseId", "dbo.Course");
             DropForeignKey("dbo.Enrollment", "StudentId", "dbo.Person");
             DropForeignKey("dbo.Enrollment", "CourseId", "dbo.Course");
             DropForeignKey("dbo.Course", "DepartmentId", "dbo.Department");
             DropForeignKey("dbo.Department", "InstructorId", "dbo.Person");
             DropForeignKey("dbo.OfficeAssignment", "InstructorId", "dbo.Person");
-            DropIndex("dbo.CourseInstructor", new[] { "InstructorID" });
-            DropIndex("dbo.CourseInstructor", new[] { "CourseID" });
+            DropIndex("dbo.CourseInstructor", new[] { "InstructorId" });
+            DropIndex("dbo.CourseInstructor", new[] { "CourseId" });
             DropIndex("dbo.Enrollment", new[] { "StudentId" });
             DropIndex("dbo.Enrollment", new[] { "CourseId" });
             DropIndex("dbo.OfficeAssignment", new[] { "InstructorId" });
