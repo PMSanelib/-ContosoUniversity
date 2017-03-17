@@ -54,11 +54,13 @@
   <ItemGroup>
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\Students\AddStudent.cs" />
+    <Compile Include="Commands\Students\DeleteStudent.cs" />
     <Compile Include="Commands\Students\UpdateStudent.cs" />
     <Compile Include="Infrastructure\Mappers\StudentMapper.cs" />
     <Compile Include="Infrastructure\ModelServices\StudentModelService.cs" />
     <Compile Include="Infrastructure\Processors\ICommandProcessor.cs" />
     <Compile Include="Infrastructure\Processors\StudentProcessors\AddStudentProcessor.cs" />
+    <Compile Include="Infrastructure\Processors\StudentProcessors\DeleteStudentProcessor.cs" />
     <Compile Include="Infrastructure\Processors\StudentProcessors\UpdateStudentProcessor.cs" />
     <Compile Include="Infrastructure\RepositoryCollection\Repository.cs" />
     <Compile Include="Infrastructure\SchoolConfiguration.cs" />

@@ -1,7 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity.Infrastructure;
+using System.Web.Mvc;
 using System.Net;
+using Core.Commands.Students;
 using Core.Infrastructure.Mappers;
 using Core.Infrastructure.ModelServices;
+using Core.Models;
 using Core.ViewModels;
 
 namespace ContosoUniversity.Controllers
@@ -108,42 +111,35 @@ namespace ContosoUniversity.Controllers
             return View(model);
         }
 
-        /* // GET: Student/Delete/5
-        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        // GET: Student/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
-            }
-            Student student = db.Students.Find(id);
+
+            var student = GetService<IStudentModelService>().GetById(id.Value, true);
+
             if (student == null)
             {
                 return HttpNotFound();
             }
+
             return View(student);
         }
 
-        // POST: Student/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                Student student = db.Students.Find(id);
-                db.Students.Remove(student);
-                db.SaveChanges();
-            }
-            catch (RetryLimitExceededException/* dex #1#)
-            {
-                //Log the error (uncomment dex variable name and add a line here to write a log.
-                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
-            }
-            return RedirectToAction("Index");
-        }*/
+            var result = ExecuteCommand(new DeleteStudent { Id = id });
+
+            if (result.IsValid) return RedirectToAction("Index");
+
+            ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+
+            return View(GetService<IStudentModelService>().GetById(id, true));
+        }
     }
 }
