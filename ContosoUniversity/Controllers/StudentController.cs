@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Net;
-using System.Web.Mvc;
-using PagedList;
+﻿using System.Web.Mvc;
 using System.Data.Entity.Infrastructure;
 using Core.Commands.Students;
-using Core.Infrastructure;
+using Core.Infrastructure.Mappers;
+using Core.Infrastructure.ModelServices;
 using Core.Infrastructure.Processors;
 using Core.ViewModels;
 
@@ -12,13 +10,13 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        private readonly IStudentModelService _studentModelService;
         private readonly ICommandProcessor<AddStudent> _commandProcessor;
 
-        public StudentController(ICommandProcessor<AddStudent> processor)
+        public StudentController(ICommandProcessor<AddStudent> processor, IStudentModelService studentModelService)
         {
             _commandProcessor = processor;
+            _studentModelService = studentModelService;
         }
 
         // GET: Student
@@ -39,36 +37,11 @@ namespace ContosoUniversity.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var students = from s in db.Students select s;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.LastName.Contains(searchString) || s.FirstName.Contains(searchString));
-            }
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    students = students.OrderByDescending(s => s.LastName);
-                    break;
-                case "Date":
-                    students = students.OrderBy(s => s.EnrollmentDate);
-                    break;
-                case "date_desc":
-                    students = students.OrderByDescending(s => s.EnrollmentDate);
-                    break;
-                default:  // Name ascending 
-                    students = students.OrderBy(s => s.LastName);
-                    break;
-            }
-
-            var pageSize = 3;
-            var pageNumber = page ?? 1;
-            return View(students.ToPagedList(pageNumber, pageSize));
+            return View(_studentModelService.SearchWithPaging(sortOrder, searchString, page ?? 1));
         }
 
 
-        // GET: Student/Details/5
+        /*// GET: Student/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -84,7 +57,7 @@ namespace ContosoUniversity.Controllers
             }
 
             return View(student);
-        }
+        }*/
 
         // GET: Student/Create
         public ActionResult Create()
@@ -97,20 +70,13 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LastName, FirstName, EnrollmentDate")] Student student)
+        public ActionResult Create([Bind(Include = "LastName, FirstName, EnrollmentDate")] StudentModel student)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var command = new AddStudent
-                    {
-                        FirstName = student.FirstName,
-                        LastName = student.LastName,
-                        EnrollmentDate = student.EnrollmentDate
-                    };
-
-                    var result = _commandProcessor.Process(command);
+                    var result = _commandProcessor.Process(StudentMapper.Map(student));
 
                     return RedirectToAction("Index");
                 }
@@ -120,6 +86,7 @@ namespace ContosoUniversity.Controllers
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
+
             return View(student);
         }
 
@@ -208,14 +175,5 @@ namespace ContosoUniversity.Controllers
             }
             return RedirectToAction("Index");
         }*/
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

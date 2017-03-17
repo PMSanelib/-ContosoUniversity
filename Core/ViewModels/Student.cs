@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.ViewModels
 {
-    public class Student
+    public class StudentModel
     {
         public int Id { get; set; }
 

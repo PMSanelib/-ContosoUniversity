@@ -11,27 +11,27 @@ namespace Core.Infrastructure
 
     public class UnitOfWork : IUnitOfWork
     {
-        internal ApplicationDbContext Context;
+        private readonly ApplicationDbContext _context;
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public void Begin()
         {
-            Context.Database.BeginTransaction();
+            _context.Database.BeginTransaction();
         }
 
         public void Commit()
         {
-            Context.SaveChanges();
-            Context.Database.CurrentTransaction.Commit();
+            _context.SaveChanges();
+            _context.Database.CurrentTransaction.Commit();
         }
 
         public void RollBack()
         {
-            Context.Database.CurrentTransaction.Rollback();
+            _context.Database.CurrentTransaction.Rollback();
         }
 
         private bool _disposed;
@@ -42,7 +42,7 @@ namespace Core.Infrastructure
             {
                 if (disposing)
                 {
-                    Context.Dispose();
+                    _context.Dispose();
                 }
             }
 
