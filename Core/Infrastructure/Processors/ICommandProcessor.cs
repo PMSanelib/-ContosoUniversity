@@ -3,7 +3,7 @@ using Core.Dtos;
 
 namespace Core.Infrastructure.Processors
 {
-    public interface ICommandProcessor<in TCommand> where TCommand : ICommand
+    public interface ICommandProcessor<TCommand> where TCommand : ICommand
     {
         ValidationResult Process(TCommand command);
     }

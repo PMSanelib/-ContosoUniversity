@@ -63,99 +63,87 @@ namespace ContosoUniversity.Controllers
         {
             if (!ModelState.IsValid) return View(student);
 
-            var result = ExecuteCommand(StudentMapper.Map(student));
+            var result = ExecuteCommand(StudentMapper.MapAddStudent(student));
 
-            if(result.IsValid) return RedirectToAction("Index");
+            if (result.IsValid) return RedirectToAction("Index");
 
             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
 
             return View(student);
         }
 
-        /* // GET: Student/Edit/5
-         public ActionResult Edit(int? id)
-         {
-             if (id == null)
-             {
-                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-             }
+        // GET: Student/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-             Student student = db.Students.Find(id);
+            var student = GetService<IStudentModelService>().GetById(id.Value, true);
 
-             if (student == null)
-             {
-                 return HttpNotFound();
-             }
-             return View(student);
-         }
+            if (student == null)
+            {
+                return HttpNotFound();
+            }
 
-         // POST: Student/Edit/5
-         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-         [HttpPost, ActionName("Edit")]
-         [ValidateAntiForgeryToken]
-         public ActionResult EditPost(int? id)
-         {
-             if (id == null)
-             {
-                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-             }
+            return View(student);
+        }
 
-             var studentToUpdate = db.Students.Find(id);
+        // POST: Student/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(StudentModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
 
-             if (!TryUpdateModel(studentToUpdate, "", new[] {"LastName", "FirstMidName", "EnrollmentDate"}))
-                 return View(studentToUpdate);
-             try
-             {
-                 db.SaveChanges();
+            var result = ExecuteCommand(StudentMapper.MapUpdateStudent(model));
 
-                 return RedirectToAction("Index");
-             }
-             catch (RetryLimitExceededException /* dex #1#)
-             {
-                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-             }
+            if (result.IsValid) return RedirectToAction("Index");
 
-             return View(studentToUpdate);
-         }
+            ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
 
-         // GET: Student/Delete/5
-         public ActionResult Delete(int? id, bool? saveChangesError = false)
-         {
-             if (id == null)
-             {
-                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-             }
-             if (saveChangesError.GetValueOrDefault())
-             {
-                 ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
-             }
-             Student student = db.Students.Find(id);
-             if (student == null)
-             {
-                 return HttpNotFound();
-             }
-             return View(student);
-         }
+            return View(model);
+        }
 
-         // POST: Student/Delete/5
-         [HttpPost]
-         [ValidateAntiForgeryToken]
-         public ActionResult Delete(int id)
-         {
-             try
-             {
-                 Student student = db.Students.Find(id);
-                 db.Students.Remove(student);
-                 db.SaveChanges();
-             }
-             catch (RetryLimitExceededException/* dex #1#)
-             {
-                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
-             }
-             return RedirectToAction("Index");
-         }*/
+        /* // GET: Student/Delete/5
+        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
+            }
+            Student student = db.Students.Find(id);
+            if (student == null)
+            {
+                return HttpNotFound();
+            }
+            return View(student);
+        }
+
+        // POST: Student/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                Student student = db.Students.Find(id);
+                db.Students.Remove(student);
+                db.SaveChanges();
+            }
+            catch (RetryLimitExceededException/* dex #1#)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Index");
+        }*/
     }
 }

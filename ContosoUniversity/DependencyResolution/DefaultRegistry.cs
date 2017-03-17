@@ -36,7 +36,6 @@ namespace ContosoUniversity.DependencyResolution {
             });
 
             For<ApplicationDbContext>().Use(new ApplicationDbContext());
-            //For<IUnitOfWork>().Use<UnitOfWork>();
         }
 
         #endregion

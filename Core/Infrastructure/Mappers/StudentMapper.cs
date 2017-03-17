@@ -6,7 +6,7 @@ namespace Core.Infrastructure.Mappers
 {
     public static class StudentMapper
     {
-        public static StudentModel Map(Student student)
+        public static StudentModel MapStudentModel(Student student)
         {
             var model = new StudentModel
             {
@@ -32,10 +32,23 @@ namespace Core.Infrastructure.Mappers
             return model;
         }
 
-        public static AddStudent Map(StudentModel model)
+        public static AddStudent MapAddStudent(StudentModel model)
         {
             var command = new AddStudent
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EnrollmentDate = model.EnrollmentDate
+            };
+
+            return command;
+        }
+
+        public static UpdateStudent MapUpdateStudent(StudentModel model)
+        {
+            var command = new UpdateStudent
+            {
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 EnrollmentDate = model.EnrollmentDate

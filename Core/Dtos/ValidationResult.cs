@@ -42,6 +42,11 @@ namespace Core.Dtos
 
         public class Error
         {
+            public Error()
+            {
+                Lines = new List<string>();
+            }
+
             public string Key {get; set;}
             public List<string> Lines {get; set;}
         }

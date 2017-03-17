@@ -51,7 +51,7 @@ namespace Core.Infrastructure.ModelServices
 
             foreach (var student in students)
             {
-                list.Add(StudentMapper.Map(student));
+                list.Add(StudentMapper.MapStudentModel(student));
             }
 
             const int pageSize = 3;
@@ -71,7 +71,7 @@ namespace Core.Infrastructure.ModelServices
 
             var student = query.Single(x => x.Id == id);
 
-            return student == null ? null : StudentMapper.Map(student);
+            return student == null ? null : StudentMapper.MapStudentModel(student);
 
         }
     }

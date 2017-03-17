@@ -29,6 +29,8 @@ namespace ContosoUniversity.Controllers
         protected T GetService<T>()
         {
             var container = StructuremapMvc.StructureMapDependencyScope.Container;
+            //var iHave = container.WhatDoIHave();
+            //var iDid = container.WhatDidIScan();
             return container.GetInstance<T>();
         }
     }
