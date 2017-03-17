@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Data.Entity.Infrastructure;
+using System.Net;
 using Core.Commands.Students;
 using Core.Infrastructure.Mappers;
 using Core.Infrastructure.ModelServices;
@@ -41,7 +42,7 @@ namespace ContosoUniversity.Controllers
         }
 
 
-        /*// GET: Student/Details/5
+        // GET: Student/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,7 +50,7 @@ namespace ContosoUniversity.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var student = db.Students.Find(id);
+            var student = _studentModelService.GetById(id.Value);
 
             if (student == null)
             {
@@ -57,7 +58,7 @@ namespace ContosoUniversity.Controllers
             }
 
             return View(student);
-        }*/
+        }
 
         // GET: Student/Create
         public ActionResult Create()

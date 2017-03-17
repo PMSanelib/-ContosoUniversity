@@ -9,6 +9,7 @@ namespace Core.Infrastructure.ModelServices
     public interface IStudentModelService
     {
         IPagedList<StudentModel> SearchWithPaging(string sortOrder, string searchString, int page);
+        StudentModel GetById(int id, bool includeEnrollments = false);
     }
 
     public class StudentModelService : IStudentModelService
@@ -56,6 +57,12 @@ namespace Core.Infrastructure.ModelServices
             var pageNumber = page;
 
             return list.ToPagedList(pageNumber, pageSize);
+        }
+
+        public StudentModel GetById(int id, bool includeEnrollments = false)
+        {
+            var student = _context.Students.Find(id);
+            return student == null ? null : StudentMapper.Map(student);
         }
     }
 }

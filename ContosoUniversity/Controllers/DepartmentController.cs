@@ -34,13 +34,15 @@ namespace ContosoUniversity.Controllers
             //Department department = await db.Departments.FindAsync(id);
 
             // Create and execute raw SQL query.
-            string query = "SELECT * FROM Department WHERE DepartmentID = @p0";
-            Department department = await db.Departments.SqlQuery(query, id).SingleOrDefaultAsync();
+            var query = "SELECT * FROM Department WHERE Id = @p0";
+
+            var department = await db.Departments.SqlQuery(query, id).SingleOrDefaultAsync();
 
             if (department == null)
             {
                 return HttpNotFound();
             }
+
             return View(department);
         }
 
@@ -56,7 +58,7 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DepartmentID,Name,Budget,StartDate,InstructorID")] Department department)
+        public async Task<ActionResult> Create([Bind(Include = "Id, Name, Budget, StartDate, InstructorId")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -159,6 +161,7 @@ namespace ContosoUniversity.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
+
             ViewBag.InstructorID = new SelectList(db.Instructors, "ID", "FullName", departmentToUpdate.InstructorId);
             return View(departmentToUpdate);
         }

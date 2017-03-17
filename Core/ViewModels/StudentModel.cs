@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.ViewModels
@@ -25,5 +26,15 @@ namespace Core.ViewModels
 
         [Display(Name = "Full Name")]
         public string FullName => LastName + ", " + FirstName;
+
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+
+        public class Enrollment
+        {
+            public int Id { get; set; }
+            public int CourseId { get; set; }
+            public virtual string CourseName { get; set; }
+            public string Grade { get; set; }
+        }
     }
 }

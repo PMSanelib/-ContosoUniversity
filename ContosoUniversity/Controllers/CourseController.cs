@@ -16,14 +16,16 @@ namespace ContosoUniversity.Controllers
         public ActionResult Index(int? selectedDepartment)
         {
             var departments = db.Departments.OrderBy(q => q.Name).ToList();
-            ViewBag.SelectedDepartment = new SelectList(departments, "DepartmentID", "Name", selectedDepartment);
+            ViewBag.SelectedDepartment = new SelectList(departments, "Id", "Name", selectedDepartment);
             var departmentId = selectedDepartment.GetValueOrDefault();
 
             var courses = db.Courses
                 .Where(c => !selectedDepartment.HasValue || c.DepartmentId == departmentId)
                 .OrderBy(d => d.Id)
                 .Include(d => d.Department);
-            var sql = courses.ToString();
+
+            //var sql = courses.ToString();
+
             return View(courses.ToList());
         }
 
@@ -51,7 +53,7 @@ namespace ContosoUniversity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CourseID,Title,Credits,DepartmentID")]Course course)
+        public ActionResult Create([Bind(Include = "Id, Title, Credits, DepartmentId")]Course course)
         {
             try
             {
@@ -95,8 +97,7 @@ namespace ContosoUniversity.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var courseToUpdate = db.Courses.Find(id);
-            if (TryUpdateModel(courseToUpdate, "",
-               new string[] { "Title", "Credits", "DepartmentID" }))
+            if (TryUpdateModel(courseToUpdate, "", new [] { "Title", "Credits", "DepartmentId" }))
             {
                 try
                 {
@@ -119,7 +120,8 @@ namespace ContosoUniversity.Controllers
             var departmentsQuery = from d in db.Departments
                                    orderby d.Name
                                    select d;
-            ViewBag.DepartmentID = new SelectList(departmentsQuery, "DepartmentID", "Name", selectedDepartment);
+
+            ViewBag.DepartmentId = new SelectList(departmentsQuery, "Id", "Name", selectedDepartment);
         }
 
 
@@ -143,7 +145,7 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Course course = db.Courses.Find(id);
+            var course = db.Courses.Find(id);
             db.Courses.Remove(course);
             db.SaveChanges();
             return RedirectToAction("Index");

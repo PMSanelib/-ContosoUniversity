@@ -16,6 +16,17 @@ namespace Core.Infrastructure.Mappers
                 EnrollmentDate = student.EnrollmentDate
             };
 
+            foreach (var enrollment in student.Enrollments)
+            {
+                model.Enrollments.Add(new StudentModel.Enrollment
+                {
+                    Id = enrollment.Id,
+                    CourseId = enrollment.CourseId,
+                    CourseName = enrollment.Course.Title,
+                    Grade = enrollment.Grade.HasValue ? enrollment.Grade.Value.ToString() : null
+                });
+            }
+
             return model;
         }
 
