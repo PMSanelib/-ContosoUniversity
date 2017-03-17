@@ -16,6 +16,8 @@ namespace Core.Infrastructure.Mappers
                 EnrollmentDate = student.EnrollmentDate
             };
 
+            if (student.Enrollments == null) return model;
+
             foreach (var enrollment in student.Enrollments)
             {
                 model.Enrollments.Add(new StudentModel.Enrollment

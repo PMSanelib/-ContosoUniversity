@@ -24,8 +24,6 @@ namespace Core.Infrastructure.Processors.StudentProcessors
 
             _context.Students.Add(entity);
 
-            _context.SaveChanges();
-
             return new ValidationResult();
         }
     }
